@@ -12,7 +12,15 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function MarketTable({ initialPage }: { initialPage: number }) {
+interface MarketTableProps {
+  initialPage: number;
+  showControls?: boolean;
+}
+
+export default function MarketTable({
+  initialPage,
+  showControls = true,
+}: MarketTableProps) {
   const [data, setData] = useState<MarketItem[]>(
     initialData.map((item) => ({ ...item, prevPrice: item.price, delta: 0 }))
   );
@@ -77,8 +85,8 @@ export default function MarketTable({ initialPage }: { initialPage: number }) {
   return (
     <div
       className="relative w-[350px] bg-[#12131C] border border-[#292A32] rounded-xl p-6"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={showControls ? handleTouchStart : undefined}
+      onTouchEnd={showControls ? handleTouchEnd : undefined}
     >
       <div className="flex items-center gap-1 w-[80] mb-4 p-1 rounded-2xl bg-[#0B0C14] text-[#ABA8FF] text-sm">
         <PiFireSimple />
@@ -103,24 +111,28 @@ export default function MarketTable({ initialPage }: { initialPage: number }) {
           </div>
         </div>
       ))}
-      <div
-        onClick={handlePrev}
-        aria-disabled={currentPage === 1}
-        className={`absolute top-1/2 left-[-12] bg-[#76777C] rounded-full w-6 h-6 flex justify-center items-center ${
-          currentPage === 1 && "opacity-35"
-        }`}
-      >
-        <MdKeyboardArrowLeft />
-      </div>
-      <div
-        onClick={handelNext}
-        aria-disabled={currentPage === totalPages}
-        className={`absolute top-1/2 right-[-12] bg-[#76777C] rounded-full w-6 h-6 flex justify-center items-center ${
-          currentPage === totalPages && "opacity-35"
-        }`}
-      >
-        <MdKeyboardArrowRight />
-      </div>
+      {showControls && (
+        <>
+          <div
+            onClick={handlePrev}
+            aria-disabled={currentPage === 1}
+            className={`absolute top-1/2 left-[-12] bg-[#76777C] rounded-full w-6 h-6 flex justify-center items-center ${
+              currentPage === 1 && "opacity-35"
+            }`}
+          >
+            <MdKeyboardArrowLeft />
+          </div>
+          <div
+            onClick={handelNext}
+            aria-disabled={currentPage === totalPages}
+            className={`absolute top-1/2 right-[-12] bg-[#76777C] rounded-full w-6 h-6 flex justify-center items-center ${
+              currentPage === totalPages && "opacity-35"
+            }`}
+          >
+            <MdKeyboardArrowRight />
+          </div>
+        </>
+      )}
     </div>
   );
 }
