@@ -155,17 +155,13 @@ export default function MarketTable({
           onTouchEnd={showControls ? handleTouchEnd : undefined}
           className="absolute top-0 left-0 w-full h-full"
         >
-          <div
-            className="w-full h-full bg-[#12131C] border border-[#292A32] rounded-xl p-6"
-            // onTouchStart={showControls ? handleTouchStart : undefined}
-            // onTouchEnd={showControls ? handleTouchEnd : undefined}
-          >
+          <div className="w-full h-full bg-[#12131C] border border-[#292A32] rounded-xl p-6">
             <div className="flex items-center gap-1 w-[80] mb-4 p-1 rounded-2xl bg-[#0B0C14] text-[#ABA8FF] text-sm">
               <PiFireSimple />
               <p>Hot List</p>
             </div>
             {currentItems.map((item) => (
-              <div className="flex justify-between mb-4" key={item.id}>
+              <div className="group flex justify-between mb-4 transition-all duration-300 lg:hover:bg-[#050505] lg:hover:w-full lg:hover:p-1 lg:hover:rounded cursor-pointer" key={item.id}>
                 <div className="flex items-center gap-2">
                   <Image
                     src={item.image}
